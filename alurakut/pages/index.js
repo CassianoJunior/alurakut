@@ -66,6 +66,29 @@ export default function Home() {
     .then((respostaCompleta) => {
       setSeguidores(respostaCompleta);
     })
+
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'd74d01e7f5e2d25e27c172f9f62d75',
+        'Content-Type': 'application/json', 
+        'Accept': 'application/json',
+      }, 
+      body: JSON.stringify({"query": `query {
+        allCommunities{
+          title
+          id
+          imageUrl
+          creatorslug
+        }
+      }` })
+      })
+      .then((response) => response.json())
+      .then((respostaCompleta) => {
+        const comunidadesVidasDoDato = respostaCompleta.data.allCommunities;
+
+        setComunidades(comunidadesVidasDoDato);
+    });
   }, [])
 
   return (
@@ -149,8 +172,8 @@ export default function Home() {
               {comunidades.slice(0, 6).map((itemAtual) => {
                 return (
                   <li key = {itemAtual.id}>
-                    <a href={`/users/${itemAtual.title}`} >
-                      <img src={itemAtual.image} />
+                    <a href={`https://github.com/${itemAtual.creatorslug}`} target="_blank" >
+                      <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
                   </li> 
