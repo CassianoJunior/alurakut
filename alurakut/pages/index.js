@@ -86,7 +86,6 @@ export default function Home() {
       .then((response) => response.json())
       .then((respostaCompleta) => {
         const comunidadesVidasDoDato = respostaCompleta.data.allCommunities;
-
         setComunidades(comunidadesVidasDoDato);
     });
   }, [])
@@ -113,10 +112,26 @@ export default function Home() {
               const dadosForm = new FormData(e.target);
 
               const comunidade = {
-                id: new Date(),
                 title: dadosForm.get('title'),
-                image: dadosForm.get('image')
+                imageUrl: dadosForm.get('image'),
+                creatorslug: gitHubUser,
               }
+
+              fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(comunidade)
+              })
+              .then(async (response) => {
+                  const dados = await response.json();
+                  console.log(dados)
+                  const comunidade = dados.registroCriado;
+
+                  const comunidadesAtt = [...comunidades, comunidade];
+                  setComunidades(comunidadesAtt);
+              })
 
               const newComunidades = [...comunidades, comunidade]
               setComunidades(newComunidades)
