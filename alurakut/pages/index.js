@@ -207,20 +207,22 @@ export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
   const token = cookies.USER_TOKEN;
 
-  if(!token){
+  if(token === "undefined"){
     return {
       redirect: {
         destination: '/login',
         permanent: false,
       }
     }
+  }else{
+    const { login } = jwt.decode(token);
+
+    return {
+      props: {
+        githubUser: login
+      }, 
+    };
   }
 
-  const { login } = jwt.decode(token);
-
-  return {
-    props: {
-      githubUser: login
-    }, 
-  };
+  
 }
