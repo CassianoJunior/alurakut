@@ -207,7 +207,7 @@ export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
   const token = cookies.USER_TOKEN;
 
-  if(token === "undefined"){
+  if(token === "undefined" || token === undefined){
     return {
       redirect: {
         destination: '/login',
