@@ -207,16 +207,7 @@ export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
   const token = cookies.USER_TOKEN;
 
-  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
-    headers: {
-      Authorization: token
-    }
-  })
-  .then((resposta) => resposta.json())
-
-  console.log(isAuthenticated)
-
-  if(!isAuthenticated){
+  if(!token){
     return {
       redirect: {
         destination: '/login',
@@ -225,11 +216,11 @@ export async function getServerSideProps(ctx) {
     }
   }
 
-  const { githubUser } = jwt.decode(token);
+  const { login } = jwt.decode(token);
 
   return {
     props: {
-      githubUser
+      githubUser: login
     }, 
   };
 }

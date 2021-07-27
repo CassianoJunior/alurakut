@@ -22,16 +22,17 @@ export default function LoginScreen() {
             <form className="box" onSubmit={(e) => {
                     e.preventDefault();
 
-                    fetch('https://alurakut.vercel.app/api/login', {
+                    fetch('https://alurakut-taupe-eight.vercel.app', {
                         method:'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ githubUser: githubUser })
+                        body: JSON.stringify({ user: githubUser })
                     })
                     .then(async (respostaDoServer) => {
                         const dadosDaResposta = await respostaDoServer.json();
-                        const token = dadosDaResposta.token;
+
+                        const { token } = dadosDaResposta;
                         nookies.set(null, 'USER_TOKEN', token, {
                             path: '/',
                             maxAge: 86400
