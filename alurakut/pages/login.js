@@ -22,7 +22,7 @@ export default function LoginScreen() {
             <form className="box" onSubmit={(e) => {
                     e.preventDefault();
 
-                    fetch('https://alurakut-taupe-eight.vercel.app', {
+                    fetch('https://alurakut-taupe-eight.vercel.app/api/auth', {
                         method:'POST',
                         headers: {
                             'Content-Type': 'application/json'
